@@ -4,4 +4,3 @@
 
 # ENVIRONMENT VARIABLES
 .env*
-.env*.local
