@@ -1,0 +1,7 @@
+
+# OTHERS
+.DS_Store
+
+# ENVIRONMENT VARIABLES
+.env*
+.env*.local
