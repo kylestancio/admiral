@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
-import { Moon, Sun } from 'lucide-react'
+import { Moon, Sun, SunMoon } from 'lucide-react'
 
 export default function ThemeButton() {
 
@@ -14,7 +14,12 @@ export default function ThemeButton() {
   }, [])
 
   if (!mounted) {
-    return null
+    return (
+      <button className='p-2 shadow-md rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-900' disabled>
+        <SunMoon className='inline me-2'/>
+        Theme
+      </button>
+    )
   }
 
   return (
@@ -23,10 +28,9 @@ export default function ThemeButton() {
       className='p-2 shadow-md rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-900'
       onClick={_=>setTheme(theme==='light'?'dark':'light')}
     >
-      {theme==='dark' && 
+      {theme==='dark' ?
         <><Sun className='inline me-2' />Light</>
-      }
-      {theme==='light' && 
+        :
         <><Moon className='inline me-2' />Dark</>
       }
     </button>
