@@ -1,0 +1,12 @@
+# NEXT
+.next
+
+# ENVIRONMENT VARIABLES
+.env*.local
+.env
+
+# BUILD FOLDER
+build
+
+# NODE MODULES
+node_modules
