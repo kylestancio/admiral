@@ -1,0 +1,113 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String      @id @default(cuid())
+  status            UserStatus?  @default(WAITINGCONFIRMATION)
+  username          String      @unique
+  password          String
+  fullName          String
+  address           String
+  phone             String?
+  email             String?     @unique
+  position          String
+  roles             UserRole[]  @default([USER])
+  avatarLink        String?
+  birthday          DateTime
+  employmentDate    DateTime
+  extendedDetails   Json?
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @default(now()) @updatedAt
+}
+
+model Driver {
+  id                String      @id @default(cuid())
+  username          String      @unique
+  password          String
+  fullName          String
+  address           String
+  phone             String?
+  email             String?     @unique
+  avatarLink        String?
+  licenseCode       String
+  licenseImageLink  String
+  licenseExpiry     DateTime
+  birthday          DateTime
+  employmentDate    DateTime
+  extendedDetails   Json?
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @default(now()) @updatedAt
+}
+
+model Vehicle {
+  id                        String  @id @default(cuid())
+  type                      VehicleType @default(GENERAL)
+  name                      String?
+  code                      String
+  plateNumber               String
+  garageGeoJSON             Json?
+  lastMaintenanceDate       DateTime?
+  nextMaintenanceDate       DateTime?
+  trackerFitted             Boolean
+  fuelConsumptionPerLitter  Float
+  fleet                     Fleet?  @relation(fields: [fleetId], references: [id])
+  fleetId                   String?
+  imageLinks                String[]
+  createdAt                 DateTime    @default(now())
+  updatedAt                 DateTime    @default(now()) @updatedAt
+}
+
+model Fleet {
+  id                String      @id @default(cuid())
+  name              String
+  incomingRoute     Route?      @relation("fleetsIncoming", fields: [incomingRouteId], references: [id])
+  incomingRouteId   String?
+  outgoingRoute     Route?      @relation("fleetsOutgoing", fields: [outgoingRouteId], references: [id])
+  outgoingRouteId   String?
+  vehicles          Vehicle[]
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @default(now()) @updatedAt
+}
+
+model Route {
+  id                  String    @id @default(cuid())
+  name                String?
+  fleetsIncoming      Fleet[]   @relation("fleetsIncoming")
+  fleetsOutgoing      Fleet[]   @relation("fleetsOutgoing")
+  originPlace         String
+  destinationPlace    String
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @default(now()) @updatedAt
+}
+
+enum UserStatus {
+  INACTIVE
+  WAITINGCONFIRMATION
+  ACTIVE
+  SUSPENDED
+}
+
+enum UserRole {
+  SUPERUSER
+  USER
+  USERMANAGER
+  ACCOUNTSMANAGER
+}
+
+enum VehicleType {
+  GENERAL
+  JEEPNEY
+  TAXI
+  MOTORCYCLE
+  TRICYCLE
+  OTHERS
+}
