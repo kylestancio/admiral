@@ -1,19 +1,60 @@
+import prisma from "@/lib/prisma";
+import { User, UserRole } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest){
   try{
-    // CREATE A SUPER USER HERE
+    const checkUser = await prisma.user.count({
+      where: {
+        roles: {
+          has: "SUPERUSER"
+        }
+      }
+    })
+
+    if (checkUser>0) throw "SuperUserExistsException"
+
+    const body:User = await req.json()
+    await prisma.user.create({
+      data: {
+        username: body.username,
+        password: body.password,
+        fullName: body.fullName,
+        address: body.address,
+        phone: body.phone,
+        email: body.email,
+        position: body.position,
+        roles: ["SUPERUSER"],
+        avatarLink: body.avatarLink,
+        birthday: body.birthday,
+        employmentDate: body.employmentDate,
+      }
+    })
+
+    //* CREATE A SUPER USER HERE
     return NextResponse.json({
       message: "A superuser has been created"
     }, {
       status: 200
     })
   }catch(err){
-    console.log(err)
-    // HANDLE SPECIFIC ERRORS HERE
+    //* LOG ERROR IN SERVER
+    console.error(err)
 
-    // RETURN A GENERAL ERROR
-    return NextResponse.json({}, {
+    //* CREATE GENERIC ERROR OBJECT
+    const errorObject = {
+      error: "Unknown Error",
+      message: "Something went wrong"
+    }
+
+    //* IF SUPERUSER EXISTS IN THE DATABASE
+    if (err==="SuperUserExistsException"){
+      errorObject.error=err
+      errorObject.message="A superuser already exists in the database." 
+    }
+
+    //* RETURN A GENERAL ERROR
+    return NextResponse.json(errorObject, {
       status: 500,
     })
   }
