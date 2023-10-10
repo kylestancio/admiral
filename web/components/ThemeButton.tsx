@@ -15,9 +15,8 @@ export default function ThemeButton() {
 
   if (!mounted) {
     return (
-      <button className='p-2 shadow-md rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-900' disabled>
+      <button className='p-1 shadow-md rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-900' disabled>
         <SunMoon className='inline me-2'/>
-        Theme
       </button>
     )
   }
@@ -25,13 +24,13 @@ export default function ThemeButton() {
   return (
     <button 
       type='button'
-      className='p-2 shadow-md rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-900'
+      className='p-1 shadow-md rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-900'
       onClick={_=>setTheme(theme==='light'?'dark':'light')}
     >
       {theme==='dark' ?
-        <><Sun className='inline me-2' />Light</>
+        <Sun className='inline' />
         :
-        <><Moon className='inline me-2' />Dark</>
+        <Moon className='inline' />
       }
     </button>
   )

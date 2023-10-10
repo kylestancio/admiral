@@ -1,6 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import Providers from '@/components/Providers'
+import TopNavigation from '@/components/TopNavigation'
 
 export const metadata: Metadata = {
   title: 'ADMIRAL | web',
@@ -16,7 +17,7 @@ export default function RootLayout({
       <body className='w-full h-full bg-white dark:bg-zinc-950'>
         <Providers>
           <header>
-            {/* <TopNavigation /> */}
+            <TopNavigation />
           </header>
           <main className=''>
             {children}
