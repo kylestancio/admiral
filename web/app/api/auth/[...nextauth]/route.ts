@@ -1,5 +1,7 @@
-import NextAuth, { User } from "next-auth"
+import prisma from "@/lib/prisma";
+import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
+import * as bcrypt from "bcrypt"
 
 export const authOptions = {
   providers: [
@@ -13,14 +15,15 @@ export const authOptions = {
         if (!credentials) return null;
         if (!credentials.username || !credentials.password) return null;
 
-        const query = {
-          id: "test_id_1",
-          name: "The User's full name",
-          username: "test",
-          password: "test"
-        }
+        const query = await prisma.user.findFirst({
+          where: {
+            username: credentials.username
+          }
+        })
 
-        if (query.username === credentials.username && query.password === credentials.password ) {
+        if (!query) return null;
+
+        if (query.username === credentials.username && bcrypt.compareSync(credentials.password, query.password) ) {
           const {password, ...user} = query
           return user
         }
