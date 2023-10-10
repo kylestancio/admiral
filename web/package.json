@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@prisma/client": "^5.4.1",
+    "@types/bcrypt": "^5.0.0",
+    "bcrypt": "^5.1.1",
     "lucide-react": "^0.284.0",
     "next": "13.5.4",
     "next-auth": "^4.23.2",
