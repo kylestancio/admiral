@@ -3,9 +3,10 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useState } from 'react'
-import cn from "classnames"
+import { cn } from '@/lib/utils'
 import { signOut } from 'next-auth/react'
 import ThemeButton from './ThemeButton'
+
 
 export default function TopNavigation() {
 
@@ -48,7 +49,7 @@ export default function TopNavigation() {
         </div>
         { avatarDropdownOpen && 
           <div className='absolute p-3 right-2 top-16 w-[230px] rounded-md bg-zinc-100 dark:bg-zinc-700 shadow space-y-1'>
-            <p className='text-sm font-bold'>Profile</p>
+            <p className='text-xs font-bold'>General</p>
             <Link href={'/settings'}>Settings</Link>
             <p className='text-red-500 cursor-pointer' onClick={()=>signOut()}>Logout</p>
           </div>
