@@ -29,7 +29,7 @@ export default async function UsersPage() {
       }
 
       { session && session.user && userCanAccess && 
-        <div className='container mx-auto mt-10'>
+        <div className='container mx-auto mt-10 p-3'>
           <div className='flex justify-between'>
             <h1 className='text-2xl font-medium'>Employees</h1>
             <Link 
