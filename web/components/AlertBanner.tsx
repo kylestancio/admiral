@@ -1,6 +1,6 @@
 'use client'
 
-import { X, XCircle } from 'lucide-react'
+import { AlertCircle, CheckCircle, X, XCircle } from 'lucide-react'
 import React, { useState } from 'react'
 import { cn } from '@/lib/utils'
 
@@ -9,7 +9,7 @@ interface IError{
   message: string
 }
 
-type TAlertType = "warning" | "error" 
+type TAlertType = "warning" | "error" | "success"
 
 export default function AlertBanner({
   type="error", 
@@ -25,10 +25,19 @@ export default function AlertBanner({
     <div className={cn(
       'w-full my-5 p-2 rounded flex gap-3',
       type==='error' && 'bg-red-500 text-white',
-      type==='warning' && 'bg-yellow-300 text-black'
+      type==='warning' && 'bg-yellow-300 text-black',
+      type==='success' && 'bg-green-500 text-white'
     )}>
       <div className='my-auto'>
-        <XCircle />
+        {type==='error' && 
+          <XCircle />
+        }
+        { type==='warning' && 
+          <AlertCircle />
+        }
+        { type==='success' &&
+          <CheckCircle />
+        }
       </div>
       <div className='my-auto grow'>
         <p className='font-medium'>{error.error}</p>
