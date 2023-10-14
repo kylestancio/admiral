@@ -5,6 +5,7 @@ import {useForm, SubmitHandler} from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import AlertBanner from '@/components/AlertBanner'
+import { useRouter } from 'next/navigation'
 
 const phoneRegex = new RegExp("^(09|\\+639)\\d{9}$")
 
@@ -45,6 +46,8 @@ export default function CreateUserForm() {
 
   const [error, setError] = useState<{error: string, message: string}|null>()
 
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -68,7 +71,7 @@ export default function CreateUserForm() {
     })
     .then(data=>{
       if (data.error) throw data
-
+      router.push(`${process.env.NEXT_PUBLIC_URL}/users/${data.data.id}`)
     })
     .catch(err=>{
       setError({

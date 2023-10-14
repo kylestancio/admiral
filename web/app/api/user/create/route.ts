@@ -26,7 +26,7 @@ export async function POST(req: NextRequest){
     const body = await req.formData()
 
     //* CREATE THE USER
-    await prisma.user.create({
+    const employee = await prisma.user.create({
       data: {
         username: body.get('username') as string,
         password: bcrypt.hashSync('1234', 10),
@@ -43,7 +43,10 @@ export async function POST(req: NextRequest){
     })
 
     return NextResponse.json({
-      message: "User creation success"
+      message: "User creation success",
+      data: {
+        id: employee.id
+      }
     })
 
   }catch(err:any){
